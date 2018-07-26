@@ -1,45 +1,46 @@
 import sys
 
-# start in the middle, move left
-# find indices associated with maximum left sum
-# start in the middle, move right
-# find indices associated with maximum right sum
-def find_max_crossing_subarray(A, low, mid, high):
-	def get_index(start_range, end_range, incr):
-		current_sum = 0
-		final_sum = -sys.maxint
-		final_index = -1
-		for i in range(start_range, end_range, incr):
-			current_sum += A[i]
-			if current_sum > final_sum:
-				final_sum = current_sum
-				final_index = i
-		return (final_index, final_sum)
-	left_index, left_sum = get_index(mid, low, -1)
-	right_index, right_sum = get_index(mid + 1, high + 1, 1)
-	return (left_index, right_index, left_sum + right_sum)
+def find_max_cross_subarray(A, low, mid, high):
+	left_cross = 0
+	left_index = None
+	left_max = -sys.maxint - 1
+	for i in range(mid, -1, -1):
+		left_cross += A[i]
+		if left_cross > left_max:
+			left_max = left_cross
+			left_index = i
 
-def find_max_subarray(A, low = 0, high = -1):
-	if high == -1:
-		high = len(A) - 1
+	right_cross = 0
+	right_max = -sys.maxint - 1
+	for i in range(mid + 1, high + 1):
+		right_cross += A[i]
+		if right_cross > right_max:
+			right_max = right_cross
+			right_index = i
+
+	return (left_index, right_index, \
+		left_max + right_max)
+
+def find_max_subarray(A, low, high):
 	if low == high:
 		return (low, high, A[low])
-
-	mid = (low + high) / 2
-	(left_low, left_high, left_amount) = \
-		find_max_subarray(A, low, mid)
-	(right_low, right_high, right_amount) = \
-		find_max_subarray(A, mid + 1, high)
-	(cross_low, cross_high, cross_amount) = \
-		find_max_crossing_subarray(A, low, mid, high)
-	if left_amount > right_amount and left_amount > cross_amount:
-		return (left_low, left_high, left_amount)
-	elif right_amount > left_amount and right_amount > cross_amount:
-		return (right_low, right_high, right_amount)
 	else:
-		return (cross_low, cross_high, cross_amount)
-	
-A = [-1, 2, 3, 13, 123, -23, -232, 132, -242]
-low, high, amt = find_max_subarray(A, 0, len(A) - 1)
-print(amt)
+		mid = (low + high) / 2
+		left_low, left_high, left_sum = \
+			find_max_subarray(A, low, mid)
+		right_low, right_high, right_sum = \
+			find_max_subarray(A, mid + 1, high)
+		cross_low, cross_high, cross_sum = \
+			find_max_cross_subarray(A, low, mid, high)
+		if left_sum >= right_sum and \
+			left_sum >= cross_sum:
+			return (left_low, left_high, left_sum)
+		elif right_sum >= left_sum and \
+			right_sum >= cross_sum:
+			return (right_low, right_high, right_sum)
+		else:
+			return (cross_low, cross_high, cross_sum)
 
+A = [4, -1, 5, -1, 10]
+res = find_max_subarray(A, 0, len(A) - 1)
+print res[2]
