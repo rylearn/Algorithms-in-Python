@@ -88,6 +88,32 @@ class BinarySearchTree:
         self.insert_node_at_external(found_node,\
                                      new_node)
 
+    # moving node2 to node1's loc
+    def transplant(self, node1, node2):
+        # update node1's parent's child
+        if node1.parent == None:
+            self.root = node2
+        elif node1 == node1.parent.left:
+            node1.parent.left = node2
+        else:
+            node1.parent.right = node2
+        # update node2's parent
+        if node2 != None:
+            node2.parent = node1.parent
 
-
-
+    def delete(self, z):
+        if z.left == None:
+            self.transplant(z, z.right)
+        elif z.right == None:
+            self.transplant(z, z.left)
+        else:
+            # equivalent to :
+            # y = self.tree_successor(z)
+            y = self.minimum(z.right)
+            if y != z.right: ## or y.parent != z
+                self.transplant(y, y.right)
+                y.right = z.right
+                y.right.parent = y
+            self.transplant(z, y)
+            y.left = z.left
+            y.left.parent = y
