@@ -1,13 +1,9 @@
 #!/bin/python
-
 import math
 import os
-import random
 import re
-import sys
 
-
-def solve(s):
+def capitalize_words(s):
 	pattern = "\w*\s*"
 	temp_list = re.findall(pattern, s)
 	new_list = []
@@ -18,11 +14,7 @@ def solve(s):
 
 if __name__ == '__main__':
 	fptr = open(os.environ['OUTPUT_PATH'], 'w')
-
 	s = raw_input()
-
-	result = solve(s)
-
-	fptr.write(result + '\n')
-
+	capitalized_words = capitalize_words(s)
+	fptr.write(capitalized_words + '\n')
 	fptr.close()
