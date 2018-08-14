@@ -16,8 +16,8 @@ class BinarySearchTree:
     def is_internal(self, node):
         if node.left == None and \
             node.right == None:
-            return True
-        return False
+            return False
+        return True
 
     def insert_node_at_external(self, node, \
                                 new_node):
