@@ -38,9 +38,8 @@ class Graph:
 
 	def numEdges(self):
 		edges = 0
-		for i in range(len(self.adjacency_list)):
-			for key, list_nodes in self.adjacency_list.items():
-				edges += len(list_nodes)
+		for key, list_nodes in self.adjacency_list.items():
+			edges += len(list_nodes)
 		return edges
 
 	def numNodes(self):
