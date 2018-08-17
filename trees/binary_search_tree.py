@@ -56,21 +56,21 @@ class BinarySearchTree:
         return y
 
     def tree_insert(self, new_node):
-        y = None
+        parent_node = None
         x = self.root
         while x != None:
-            y = x
-            if new_node.key < x.key:
-                x = x.left
+            parent_node = x
+            if new_node.key < parent_node.key:
+                x = parent_node.left
             else:
-                x = x.right
-        new_node.parent = y
-        if y == None:
+                x = parent_node.right
+        new_node.parent = parent_node
+        if parent_node == None:
             self.root = new_node
-        elif new_node.key < y.key:
-            y.left = new_node
+        elif new_node.key < parent_node.key:
+            parent_node.left = new_node
         else:
-            y.right = new_node
+            parent_node.right = new_node
 
     # moving node2 to node1's loc
     def transplant(self, node1, node2):
