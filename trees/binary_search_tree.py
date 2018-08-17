@@ -13,23 +13,6 @@ class BinarySearchTree:
     def __init__(self, root):
         self.root = root
 
-    def is_internal(self, node):
-        if node.left == None and \
-            node.right == None:
-            return False
-        return True
-
-    def insert_node_at_external(self, node, \
-                                new_node):
-        if self.is_internal(node):
-            raise Exception('Not external node')
-        if node == None:
-            node = new_node
-        if new_node.key < node.key:
-            node.left = new_node
-        else:
-            node.right = new_node
-
     def inorder_traversal(self, node):
         if node != None:
             self.inorder_traversal(node.left)
@@ -72,21 +55,22 @@ class BinarySearchTree:
             y = x.parent
         return y
 
-    def tree_insert(self, new_node,\
-                    start_node = None):
-        if start_node == None:
-            start_node = self.root
-        x = start_node
-        found_node = None
+    def tree_insert(self, new_node):
+        y = None
+        x = self.root
         while x != None:
-            found_node = x
+            y = x
             if new_node.key < x.key:
                 x = x.left
             else:
                 x = x.right
-        new_node.parent = found_node
-        self.insert_node_at_external(found_node,\
-                                     new_node)
+        new_node.parent = y
+        if y == None:
+            self.root = new_node
+        elif new_node.key < y.key:
+            y.left = new_node
+        else:
+            y.right = new_node
 
     # moving node2 to node1's loc
     def transplant(self, node1, node2):
@@ -117,3 +101,13 @@ class BinarySearchTree:
             self.transplant(z, y)
             y.left = z.left
             y.left.parent = y
+
+root = Node(5)
+binary_tree = BinarySearchTree(root)
+node = Node(3)
+binary_tree.tree_insert(node)
+binary_tree.tree_insert(Node(6))
+binary_tree.tree_insert(Node(4))
+binary_tree.delete(node)
+binary_tree.delete(node)
+binary_tree.inorder_traversal(binary_tree.root)
