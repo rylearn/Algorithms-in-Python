@@ -11,7 +11,10 @@ class Node:
 
 class BinarySearchTree:
     def __init__(self, root):
-        self.root = root
+        if type(root) == Node:
+            self.root = root
+        elif type(root) == type(int):
+            self.root = Node(root)
 
     def inorder_traversal(self, node):
         if node != None:
@@ -19,8 +22,9 @@ class BinarySearchTree:
             print(node.key)
             self.inorder_traversal(node.right)
 
-    def search(self, x, k):
-        while x != None or x.key != k:
+    def search(self, k):
+        x = self.root
+        while x != None and x.key != k:
             if k < x.key:
                 x = x.left
             else:
@@ -55,9 +59,10 @@ class BinarySearchTree:
             y = x.parent
         return y
 
-    def tree_insert(self, new_node):
+    def tree_insert(self, new_value):
         parent_node = None
         x = self.root
+        new_node = Node(new_value)
         while x != None:
             parent_node = x
             if new_node.key < parent_node.key:
@@ -85,7 +90,10 @@ class BinarySearchTree:
         if node2 != None:
             node2.parent = node1.parent
 
-    def delete(self, z):
+    def delete(self, value):
+        z = self.search(value)
+        if z == None:
+            return
         if z.left == None:
             self.transplant(z, z.right)
         elif z.right == None:
@@ -94,7 +102,7 @@ class BinarySearchTree:
             # equivalent to :
             # y = self.tree_successor(z)
             y = self.minimum(z.right)
-            if y != z.right: ## or y.parent != z
+            if y.parent != z:
                 self.transplant(y, y.right)
                 y.right = z.right
                 y.right.parent = y
@@ -104,10 +112,10 @@ class BinarySearchTree:
 
 root = Node(5)
 binary_tree = BinarySearchTree(root)
-node = Node(3)
-binary_tree.tree_insert(node)
-binary_tree.tree_insert(Node(6))
-binary_tree.tree_insert(Node(4))
-binary_tree.delete(node)
-binary_tree.delete(node)
+binary_tree.tree_insert(3)
+binary_tree.tree_insert(6)
+binary_tree.tree_insert(4)
+binary_tree.delete(6)
+binary_tree.delete(6)
+binary_tree.delete(4)
 binary_tree.inorder_traversal(binary_tree.root)
