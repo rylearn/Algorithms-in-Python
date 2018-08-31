@@ -12,7 +12,7 @@ def memoized_cut_rod(p, n):
     return r, s
 
 prices = [1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
-n = 10
-r, s = memoized_cut_rod(prices, 10)
+n = len(prices)
+r, s = memoized_cut_rod(prices, n)
 print(r)
 print(s)
