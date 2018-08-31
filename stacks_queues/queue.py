@@ -27,7 +27,7 @@ class Queue:
 		return self.arr[0]
 
 	def isEmpty(self):
-		return (len(self.arr) == 0)
+		return len(self.arr) == 0
 
 airport_line = Queue()
 airport_line.add("jeff")
