@@ -4,7 +4,7 @@ class Item:
 		self.weight = weight
 		self.value = value
 
-def partition(list_items, p, r):
+def partition(A, p, r):
 	pivot = A[r]
 	i = p - 1
 	for j in range(p, r, 1):
